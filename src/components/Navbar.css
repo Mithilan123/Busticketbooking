@@ -1,0 +1,28 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #4f46e5, #9333ea);
+  padding: 16px 32px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.nav-logo {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.nav-links a {
+  color: white;
+  margin-left: 25px;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}

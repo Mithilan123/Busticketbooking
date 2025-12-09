@@ -1,0 +1,36 @@
+.rb-search-container {
+  padding: 40px;
+  font-family: "Poppins";
+}
+
+.rb-search-box {
+  background: #ffffff;
+  width: 70%;
+  margin: auto;
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.rb-search-box input {
+  width: 30%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.rb-search-box button {
+  padding: 10px 20px;
+  background: #c80000;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.rb-search-results {
+  margin-top: 40px;
+}
+

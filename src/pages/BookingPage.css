@@ -1,0 +1,37 @@
+.rb-seat-bg {
+  min-height: 100vh;
+  background: #fff4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rb-seat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 450px;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+  font-family: "Poppins";
+}
+
+.rb-seat-sub {
+  color: #c50000;
+  margin-bottom: 15px;
+}
+
+.rb-confirm-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #d60000;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.rb-confirm-btn:hover {
+  background: #a90000;
+}

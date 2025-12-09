@@ -1,0 +1,27 @@
+.rb-seat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.rb-seat {
+  width: 50px;
+  height: 45px;
+  background: #eee;
+  border-radius: 8px;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.rb-seat:hover {
+  background: #dddddd;
+}
+
+.rb-seat.selected {
+  background: #d60000;
+  color: white;
+}
