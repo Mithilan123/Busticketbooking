@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="home-wrapper">
       <div className="home-banner">
 
-        <h1 className="home-title">Welcome to Bus Booking</h1>
+        <h1 className="home-title">Welcome to Blue Bus </h1>
 
         <p className="home-subtitle">
           Your trusted platform to book bus tickets quickly, safely, and comfortably.
@@ -15,7 +15,7 @@ export default function HomePage() {
         <p className="home-desc">
           Compare fares, check seat availability, select your preferred seat, and enjoy 
           a seamless bus ticket booking experience. We connect you with top bus operators 
-          across the country to ensure you travel with comfort and confidence.
+          across the country to ensure you travel with comfort,confidence and safety.
         </p>
 
         <Link to="/search">

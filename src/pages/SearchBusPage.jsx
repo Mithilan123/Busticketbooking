@@ -1,42 +1,86 @@
 import { useState, useContext } from "react";
-import { BusContext } from "../context/BusContext";
 import API from "../api";
-import BusCard from "../components/BusCard";
 import "./SearchBusPage.css";
 
 export default function SearchBusPage() {
-  const { searchData, setSearchData } = useContext(BusContext);
+  const [source, setSource] = useState("");
+  const [destination, setDestination] = useState("");
+  const [date, setDate] = useState("");
   const [buses, setBuses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const search = async () => {
-    const res = await API.post("/bus/search", searchData);
-    setBuses(res.data);
+  const handleSearch = async () => {
+    if (!source || !destination || !date) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await API.get(
+        `/buses/search?source=${source}&destination=${destination}&date=${date}`
+      );
+      setBuses(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div className="rb-search-container">
+    <div className="search-wrapper">
 
-      <div className="rb-search-box">
-        <input placeholder="From"
-          onChange={(e) => setSearchData({ ...searchData, source: e.target.value })}
+      <h1 className="search-title">Search Buses</h1>
+
+      {/* Search Form */}
+      <div className="search-box animated-search">
+        <input
+          type="text"
+          placeholder="From"
+          onChange={(e) => setSource(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="To"
+          onChange={(e) => setDestination(e.target.value)}
+        />
+        <input
+          type="date"
+          onChange={(e) => setDate(e.target.value)}
         />
 
-        <input placeholder="To"
-          onChange={(e) => setSearchData({ ...searchData, destination: e.target.value })}
-        />
-
-        <input type="date"
-          onChange={(e) => setSearchData({ ...searchData, date: e.target.value })}
-        />
-
-        <button onClick={search}>Search Bus</button>
+        <button onClick={handleSearch}>Search</button>
       </div>
 
-      <div className="rb-search-results">
-        {buses.map(bus => (
-          <BusCard key={bus._id} bus={bus} />
+      {/* Loader */}
+      {loading && <h2 className="loading">Searching buses...</h2>}
+
+      {/* No results */}
+      {!loading && buses.length === 0 && (
+        <p className="no-results">No buses found. Try different locations.</p>
+      )}
+
+      {/* Results */}
+      <div className="bus-results">
+        {buses.map((bus) => (
+          <div key={bus._id} className="bus-card animated-card">
+            <h2 className="bus-name">{bus.busName}</h2>
+
+            <p className="route">
+              {bus.source} → {bus.destination}
+            </p>
+
+            <p><strong>Date:</strong> {bus.date}</p>
+            <p><strong>Seats Available:</strong> {bus.seatsAvailable}</p>
+            <p><strong>Fare:</strong> ₹{bus.fare}</p>
+
+            <button className="book-btn">View Seats</button>
+          </div>
         ))}
       </div>
+
     </div>
   );
 }

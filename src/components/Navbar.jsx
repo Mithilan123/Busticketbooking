@@ -4,7 +4,7 @@ import "./Navbar.css";
 export default function Navbar() {
   return (
     <nav className="nav-container">
-      <div className="nav-logo">Bus Booking</div>
+      <div className="nav-logo">Blue Bus</div>
 
       <div className="nav-links">
         <Link to="/">Home</Link>
