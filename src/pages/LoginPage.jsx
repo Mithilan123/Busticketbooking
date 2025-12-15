@@ -1,48 +1,53 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import API from "../api";
-import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "./LoginPage.css";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const [data, setData] = useState({
+  const [form, setForm] = useState({
     email: "",
     password: ""
   });
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const handleLogin = async () => {
-    const res = await API.post("/auth/login", data);
-    login(res.data);
-    navigate("/");
+    try {
+      const res = await API.post("/auth/login", form);
+
+      login(res.data); // store token + user
+
+      alert("Login Successful!");
+      window.location.href = "/"; // redirect home
+    } catch (err) {
+      alert("Login Failed. Check email/password.");
+      console.log("LOGIN ERROR:", err.response?.data || err);
+    }
   };
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card animated-auth">
+    <div className="login-wrapper">
+      <h1>Login</h1>
 
-        <h2>Welcome Back</h2>
-        <p className="auth-sub">Login to continue booking your journey</p>
-
+      <div className="login-box">
         <input
           type="email"
-          placeholder="Email"
-          onChange={(e) => setData({ ...data, email: e.target.value })}
+          name="email"
+          placeholder="Enter Email"
+          onChange={handleChange}
         />
-
         <input
           type="password"
-          placeholder="Password"
-          onChange={(e) => setData({ ...data, password: e.target.value })}
+          name="password"
+          placeholder="Enter Password"
+          onChange={handleChange}
         />
 
         <button onClick={handleLogin}>Login</button>
-
-        <p className="auth-switch">
-          Don’t have an account? <Link to="/signup">Sign Up</Link>
-        </p>
       </div>
     </div>
   );

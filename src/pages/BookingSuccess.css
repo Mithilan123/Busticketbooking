@@ -1,6 +1,6 @@
 .success-wrapper {
-  background: linear-gradient(135deg, #ff3d3d, #b30000);
-  min-height: 100vh;
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  min-height: calc(100vh - 70px);
   padding: 40px 20px;
   display: flex;
   justify-content: center;
@@ -13,94 +13,179 @@
 
 .success-card {
   background: white;
-  padding: 30px;
-  width: 420px;
-  border-radius: 20px;
+  padding: 0;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 24px;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.success-header {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  padding: 40px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.success-header::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
 }
 
 .success-icon {
-  background: #4caf50;
-  width: 95px;
-  height: 95px;
+  background: white;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  margin: auto;
-  font-size: 48px;
-  color: white;
+  margin: 0 auto 20px;
+  font-size: 50px;
+  color: #4caf50;
   animation: bounceIn 0.7s ease-in-out;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .title {
   font-size: 32px;
-  margin-top: 15px;
-  color: #222;
-  font-weight: bold;
+  margin: 0;
+  color: white;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
 .subtitle {
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 17px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .ticket-box {
-  margin-top: 25px;
-  background: #fafafa;
-  padding: 20px;
-  border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  border-left: 5px solid #ff0000;
+  margin: 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border: 2px solid #e0e7ff;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(to bottom, #1976d2, #1565c0);
 }
 
 .ticket-box h2 {
-  margin-bottom: 10px;
-  font-size: 22px;
-  color: #d10000;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #1976d2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ticket-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  text-align: left;
 }
 
 .ticket-info p {
   font-size: 15px;
-  margin: 6px 0;
-  color: #444;
+  margin: 0;
+  color: #333;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  border-left: 3px solid #1976d2;
+}
+
+.ticket-info strong {
+  color: #1976d2;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .buttons {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  margin: 0 30px 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 .btn {
-  padding: 12px;
+  padding: 14px 20px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   border: none;
-  transition: 0.3s;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .print {
-  background: #0d47a1;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
   color: white;
 }
-.print:hover { background: #092b6f; }
+.print:hover { 
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+}
 
 .view {
-  background: #4caf50;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
   color: white;
 }
-.view:hover { background: #2e7d32; }
+.view:hover { 
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
 
 .home {
-  background: #ff9800;
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
   color: white;
 }
-.home:hover { background: #e65100; }
+.home:hover { 
+  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+}
 
 .confetti::before,
 .confetti::after {
@@ -149,4 +234,24 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .success-card {
+    width: 95%;
+  }
+  
+  .buttons {
+    grid-template-columns: 1fr;
+    margin: 0 20px 20px;
+  }
+  
+  .ticket-info {
+    grid-template-columns: 1fr;
+  }
 }

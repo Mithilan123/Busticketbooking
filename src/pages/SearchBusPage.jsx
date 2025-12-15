@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import API from "../api";
+import BusCard from "../components/BusCard";
 import "./SearchBusPage.css";
 
 export default function SearchBusPage() {
@@ -8,79 +9,123 @@ export default function SearchBusPage() {
   const [date, setDate] = useState("");
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSearch = async () => {
+  const [sources, setSources] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+
+  useEffect(() => {
+    API.get("/buses/locations")
+      .then((res) => {
+        setSources(res.data.sources || []);
+        setDestinations(res.data.destinations || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching locations:", err);
+      });
+  }, []);
+
+  // Set minimum date to today
+  const today = new Date().toISOString().split('T')[0];
+
+  const searchBuses = async () => {
     if (!source || !destination || !date) {
-      alert("Please fill all fields.");
+      setError("Please fill all fields");
       return;
     }
 
+    if (date < today) {
+      setError("Please select a future date");
+      return;
+    }
+
+    setError("");
     setLoading(true);
 
     try {
       const res = await API.get(
-        `/buses/search?source=${source}&destination=${destination}&date=${date}`
+        `/buses/search?source=${source.toLowerCase()}&destination=${destination.toLowerCase()}&date=${date}`
       );
-      setBuses(res.data);
+      setBuses(res.data || []);
+      if (res.data.length === 0) {
+        setError("No buses found for this route");
+      }
     } catch (err) {
+      setError("Failed to search buses. Please try again.");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <div className="search-wrapper">
+    <div className="search-page">
+      <div className="search-container">
+        <h1 className="search-title">Search Buses</h1>
+        <p className="search-subtitle">Find and book your perfect bus journey</p>
 
-      <h1 className="search-title">Search Buses</h1>
+        <div className="search-box">
+          <div className="search-field">
+            <label>From</label>
+            <select 
+              value={source} 
+              onChange={(e) => setSource(e.target.value)}
+              className="search-select"
+            >
+              <option value="">Select Source City</option>
+              {sources.map((s, i) => (
+                <option key={i} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+              ))}
+            </select>
+          </div>
 
-      {/* Search Form */}
-      <div className="search-box animated-search">
-        <input
-          type="text"
-          placeholder="From"
-          onChange={(e) => setSource(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="To"
-          onChange={(e) => setDestination(e.target.value)}
-        />
-        <input
-          type="date"
-          onChange={(e) => setDate(e.target.value)}
-        />
+          <div className="search-field">
+            <label>To</label>
+            <select
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              className="search-select"
+            >
+              <option value="">Select Destination City</option>
+              {destinations.map((d, i) => (
+                <option key={i} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>
+              ))}
+            </select>
+          </div>
 
-        <button onClick={handleSearch}>Search</button>
+          <div className="search-field">
+            <label>Date of Journey</label>
+            <input
+              type="date"
+              value={date}
+              min={today}
+              onChange={(e) => setDate(e.target.value)}
+              className="search-date"
+            />
+          </div>
+
+          <button 
+            onClick={searchBuses} 
+            className="search-btn"
+            disabled={loading}
+          >
+            {loading ? "Searching..." : "Search Buses"}
+          </button>
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
       </div>
 
-      {/* Loader */}
-      {loading && <h2 className="loading">Searching buses...</h2>}
-
-      {/* No results */}
-      {!loading && buses.length === 0 && (
-        <p className="no-results">No buses found. Try different locations.</p>
-      )}
-
-      {/* Results */}
       <div className="bus-results">
-        {buses.map((bus) => (
-          <div key={bus._id} className="bus-card animated-card">
-            <h2 className="bus-name">{bus.busName}</h2>
-
-            <p className="route">
-              {bus.source} → {bus.destination}
-            </p>
-
-            <p><strong>Date:</strong> {bus.date}</p>
-            <p><strong>Seats Available:</strong> {bus.seatsAvailable}</p>
-            <p><strong>Fare:</strong> ₹{bus.fare}</p>
-
-            <button className="book-btn">View Seats</button>
+        {buses.length > 0 && (
+          <div className="results-header">
+            <h2>{buses.length} Bus{buses.length > 1 ? 'es' : ''} Found</h2>
           </div>
+        )}
+        {buses.map((bus) => (
+          <BusCard key={bus._id} bus={bus} />
         ))}
       </div>
-
     </div>
   );
 }

@@ -1,29 +1,101 @@
-import { useEffect, useState, useContext } from "react";
-import { BusContext } from "../context/BusContext";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
+import SeatSelector from "../components/SeatSelector";
+import "./BusDetailsPage.css";
 
 export default function BusDetailsPage() {
-  const { selectedBus, setSelectedBus } = useContext(BusContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [bus, setBus] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    API.get(`/bus/${id}`).then(res => setSelectedBus(res.data));
-  }, []);
+    API.get(`/buses/${id}`)
+      .then((res) => {
+        console.log("Bus data:", res.data); // DEBUG
+        setBus(res.data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [id]);
+
+  const bookSeats = async () => {
+    if (selectedSeats.length === 0) {
+      alert("Please select at least one seat");
+      return;
+    }
+
+    try {
+      const response = await API.post("/bookings", {
+        busId: bus._id,
+        seats: selectedSeats,
+        date: bus.date,
+      });
+
+      alert(`Booking successful! Total: ₹${response.data.totalPrice}`);
+      navigate("/bookings");
+    } catch (err) {
+      alert(err.response?.data?.message || "Booking failed");
+    }
+  };
+
+  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  if (!bus) return <h2 style={{ textAlign: "center" }}>Bus not found</h2>;
+
+  const totalPrice = selectedSeats.length * bus.price;
 
   return (
-    <div style={{ padding: 20 }}>
-      {selectedBus && (
-        <>
-          <h2>{selectedBus.busName}</h2>
-          <p>{selectedBus.source} → {selectedBus.destination}</p>
+    <div className="bus-details-wrapper">
+      <div className="bus-card">
+        <div className="bus-header">
+          <h1>{bus.busName}</h1>
+          <span className="bus-type">{bus.busType || "AC"}</span>
+        </div>
+        
+        <div className="route-info">
+          <div className="route-detail">
+            <div className="time">{bus.departureTime || "08:00"}</div>
+            <div className="location">{bus.source}</div>
+          </div>
+          <div className="route-arrow">→</div>
+          <div className="route-detail">
+            <div className="time">{bus.arrivalTime || "14:00"}</div>
+            <div className="location">{bus.destination}</div>
+          </div>
+        </div>
 
-          <button onClick={() => navigate(`/book/${selectedBus._id}`)}>
-            Select Seats
+        <div className="bus-meta">
+          <p><strong>Date:</strong> {bus.date}</p>
+          <p><strong>Fare per seat:</strong> ₹{bus.price}</p>
+          {bus.amenities && bus.amenities.length > 0 && (
+            <div className="amenities">
+              <strong>Amenities:</strong>
+              {bus.amenities.map((amenity, i) => (
+                <span key={i} className="amenity-tag">{amenity}</span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <SeatSelector
+          bus={bus}
+          selectedSeats={selectedSeats}
+          setSelectedSeats={setSelectedSeats}
+        />
+
+        <div className="booking-summary">
+          <div className="summary-row">
+            <span>Seats Selected: {selectedSeats.length}</span>
+            <span>Total Price: ₹{totalPrice}</span>
+          </div>
+          <button className="book-btn" onClick={bookSeats} disabled={selectedSeats.length === 0}>
+            {selectedSeats.length === 0 ? "Select Seats to Book" : `Book ${selectedSeats.length} Seat${selectedSeats.length > 1 ? 's' : ''} - ₹${totalPrice}`}
           </button>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 }

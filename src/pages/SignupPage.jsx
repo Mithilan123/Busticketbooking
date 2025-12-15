@@ -27,78 +27,51 @@ export default function SignupPage() {
 
     try {
       const res = await API.post("/auth/signup", data);
-      login(res.data);
-      navigate("/");
+      login(res.data);    // store token + user
+      navigate("/");      // redirect home
     } catch (err) {
-      alert("Signup failed!");
+      console.error(err);
+      alert("Signup failed — Check backend OR email already exists.");
     }
   };
 
   return (
     <div className="auth-wrapper">
       <div className="auth-card animated-auth">
+        <h2>Create Account</h2>
 
-        <h2>Create Your Account</h2>
-        <p className="auth-sub">Join Blue Bus Booking and enjoy a smooth travel experience.</p>
+        <input type="text" placeholder="Full Name"
+          onChange={(e) => setData({ ...data, name: e.target.value })} />
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          onChange={(e) => setData({ ...data, name: e.target.value })}
-        />
+        <input type="email" placeholder="Email"
+          onChange={(e) => setData({ ...data, email: e.target.value })} />
 
-        <input
-          type="email"
-          placeholder="Email Address"
-          onChange={(e) => setData({ ...data, email: e.target.value })}
-        />
+        <input type="tel" placeholder="Phone Number"
+          onChange={(e) => setData({ ...data, phone: e.target.value })} />
 
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          onChange={(e) => setData({ ...data, phone: e.target.value })}
-        />
-
-        <select
-          onChange={(e) => setData({ ...data, gender: e.target.value })}
-        >
-          <option value="">Select Gender</option>
+        <select onChange={(e) => setData({ ...data, gender: e.target.value })}>
+          <option value="">Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-          <option value="Other">Other</option>
         </select>
 
-        <input
-          type="date"
-          onChange={(e) => setData({ ...data, dob: e.target.value })}
-        />
+        <input type="date"
+          onChange={(e) => setData({ ...data, dob: e.target.value })} />
 
-        <input
-          type="text"
-          placeholder="City"
-          onChange={(e) => setData({ ...data, city: e.target.value })}
-        />
+        <input type="text" placeholder="City"
+          onChange={(e) => setData({ ...data, city: e.target.value })} />
 
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setData({ ...data, password: e.target.value })}
-        />
+        <input type="password" placeholder="Password"
+          onChange={(e) => setData({ ...data, password: e.target.value })} />
 
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          onChange={(e) =>
-            setData({ ...data, confirmPassword: e.target.value })
-          }
-        />
+        <input type="password" placeholder="Confirm Password"
+          onChange={(e) => setData({ ...data, confirmPassword: e.target.value })} />
 
         <button onClick={handleSignup}>Sign Up</button>
 
         <p className="auth-switch">
           Already have an account? <Link to="/login">Login</Link>
         </p>
-
       </div>
     </div>
   );

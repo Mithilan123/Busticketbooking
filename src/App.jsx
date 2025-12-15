@@ -8,6 +8,7 @@ import MyBookingsPage from "./pages/MyBookingsPage";
 import BookingSuccessPage from "./pages/BookingSuccessPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import AdminPage from "./pages/AdminPage";   // ✅ IMPORTANT
 
 export default function App() {
   return (
@@ -24,6 +25,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
+        {/* ⭐ Admin Route */}
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );

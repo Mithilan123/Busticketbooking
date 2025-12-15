@@ -1,6 +1,6 @@
 .auth-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #1976d2, #1565c0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +19,7 @@
 
 .auth-card h2 {
   font-size: 32px;
-  color: #4f46e5;
+  color: #1976d2;
   margin-bottom: 10px;
 }
 
@@ -76,22 +76,22 @@
 }
 
 .auth-card input[type="date"]:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 4px #4f46e5;
+  border-color: #1976d2;
+  box-shadow: 0 0 4px #1976d2;
 }
 
 
 .auth-card input:focus,
 .auth-card select:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 4px #4f46e5;
+  border-color: #1976d2;
+  box-shadow: 0 0 4px #1976d2;
 }
 
 .auth-card button {
   width: 100%;
   padding: 14px;
   margin-top: 22px;
-  background: #4f46e5;
+  background: #1976d2;
   color: white;
   border: none;
   border-radius: 10px;
@@ -101,7 +101,7 @@
 }
 
 .auth-card button:hover {
-  background: #3b34c5;
+  background: #1565c0;
 }
 
 .auth-switch {
@@ -109,7 +109,7 @@
 }
 
 .auth-switch a {
-  color: #4f46e5;
+  color: #1976d2;
   text-decoration: none;
   font-weight: bold;
 }
