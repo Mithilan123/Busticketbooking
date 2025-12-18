@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://13.51.64.0:5000/api",
+  baseURL: "https://ticketbooking-backend-ten.vercel.app/api"
 });
 
 API.interceptors.request.use((req) => {
@@ -13,4 +13,3 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
-
